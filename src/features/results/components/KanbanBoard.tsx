@@ -1,0 +1,39 @@
+import React from 'react';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { Candidate } from '../types';
+import KanbanColumn from './KanbanColumn';
+
+interface KanbanBoardProps {
+  candidates: Candidate[];
+  onUpdateStatus: (candidateId: number, newStatus: 'Triagem' | 'Entrevista' | 'Aprovado' | 'Reprovado') => void;
+  onViewDetails: (candidate: Candidate) => void;
+  onScheduleInterview: (candidate: Candidate) => void;
+}
+
+const KanbanBoard: React.FC<KanbanBoardProps> = ({ candidates, onUpdateStatus, onViewDetails, onScheduleInterview }) => {
+  const columns = {
+    'Triagem': candidates.filter(c => !c.status || c.status.value === 'Triagem'),
+    'Entrevista': candidates.filter(c => c.status?.value === 'Entrevista'),
+    'Aprovado': candidates.filter(c => c.status?.value === 'Aprovado'),
+    'Reprovado': candidates.filter(c => c.status?.value === 'Reprovado'),
+  };
+
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination, draggableId } = result;
+    if (!destination || source.droppableId === destination.droppableId) return;
+    onUpdateStatus(parseInt(draggableId), destination.droppableId as any);
+  };
+
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+        <div className="flex gap-6 overflow-x-auto pb-4 h-[calc(100vh-22rem)]">
+            <KanbanColumn columnId="Triagem" title="Triagem" candidates={columns['Triagem']} onViewDetails={onViewDetails} onScheduleInterview={onScheduleInterview} />
+            <KanbanColumn columnId="Entrevista" title="Entrevista" candidates={columns['Entrevista']} onViewDetails={onViewDetails} onScheduleInterview={onScheduleInterview} />
+            <KanbanColumn columnId="Aprovado" title="Aprovado" candidates={columns['Aprovado']} onViewDetails={onViewDetails} onScheduleInterview={onScheduleInterview} />
+            <KanbanColumn columnId="Reprovado" title="Reprovado" candidates={columns['Reprovado']} onViewDetails={onViewDetails} onScheduleInterview={onScheduleInterview} />
+        </div>
+    </DragDropContext>
+  );
+};
+
+export default KanbanBoard;

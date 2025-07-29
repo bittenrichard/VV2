@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Classe utilitária para a fonte */
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- ESTILOS PERSONALIZADOS PARA O CALENDÁRIO --- */
+
+/* Toolbar (Mês, botões de navegação) */
+.rbc-toolbar {
+  @apply mb-4 flex items-center justify-between;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+.rbc-btn-group {
+  @apply inline-flex items-center bg-gray-100 p-1 rounded-lg;
+}
+
+.rbc-btn-group button {
+  @apply px-4 py-1.5 text-sm font-semibold text-gray-600 border-0 rounded-md transition-colors duration-200;
+}
+
+.rbc-btn-group button:hover {
+  @apply bg-gray-200 text-gray-800;
+}
+
+.rbc-btn-group button.rbc-active,
+.rbc-btn-group button.rbc-active:hover {
+  @apply bg-white text-indigo-600 shadow-sm;
+}
+
+/* Eventos no calendário */
+.rbc-event {
+  @apply bg-indigo-500 border-indigo-600 p-1 rounded-md text-sm;
+}
+
+.rbc-event:focus {
+  outline: none;
+}
+
+/* Célula do dia de hoje */
+.rbc-today {
+  @apply bg-indigo-50 !important;
+}
+
+/* Header dos dias (Dom, Seg, Ter...) */
+.rbc-header {
+  @apply text-center p-2 border-b text-sm font-medium text-gray-500;
+}
+
+/* Estilo geral */
+.rbc-calendar {
+  @apply font-inter;
+}
